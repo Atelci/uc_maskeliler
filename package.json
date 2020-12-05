@@ -1,0 +1,9 @@
+{
+    "dependencies": {
+        "express": "*",
+        "body-parser": "*"
+    },
+    "scripts": {
+        "start": "node index.js"
+    }
+}
