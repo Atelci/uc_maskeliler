@@ -10,7 +10,7 @@ print('#######################################################')
 print("Object Detection Started For " + imageName)
 
 
-image_BGR = cv2.imread('./images/' + imageName)
+image_BGR = cv2.imread('/root/oraas/uc_maskeliler/uploads/' + imageName)
 
 # Check point - Showing image shape
 # print('Image shape:', image_BGR.shape)
