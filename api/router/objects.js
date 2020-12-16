@@ -72,7 +72,7 @@ router.post('/upload', upload.single('objectImage'), (req, res, next) => {
         }
         console.log(`output: ${stdout}`);
         res.status(200).json({
-            message: stdout
+            message: req.file.filename
         });
     })
 })
