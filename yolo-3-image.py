@@ -6,6 +6,16 @@ import sys
 import os
 
 imageName = str(sys.argv[1])
+className = str(sys.argv[2])
+
+if (className === 'mask') {
+    fileDir = "/root/mask/";
+} elif (className === 'baret') {
+    fileDir = "/root/baret/";
+} else {
+    fileDir = "/root/yolo-coco-data/";
+}
+
 print('#######################################################')
 print("Object Detection Started For " + imageName)
 
@@ -56,7 +66,7 @@ blob = cv2.dnn.blobFromImage(image_BGR, 1 / 255.0, (416, 416), swapRB=True, crop
 
 # Loading COCO class labels from file
 
-with open('yolo-coco-data/coco.names') as f:
+with open(fileDir + 'coco.names') as f:
     # Getting labels reading every line
     # and putting them into the list
     labels = [line.strip() for line in f]
@@ -68,7 +78,7 @@ with open('yolo-coco-data/coco.names') as f:
 
 # Loading trained YOLO v3 Objects Detector
 # with the help of 'dnn' library from OpenCV
-network = cv2.dnn.readNetFromDarknet('yolo-coco-data/yolov3.cfg', 'yolo-coco-data/yolov3.weights')
+network = cv2.dnn.readNetFromDarknet(fileDir + 'yolov3.cfg', fileDir + 'yolov3.weights')
 
 # Getting list with names of all layers from YOLO v3 network
 layers_names_all = network.getLayerNames()
@@ -202,7 +212,7 @@ print()
 print('Total objects been detected:', len(bounding_boxes))
 print('Number of objects left after non-maximum suppression:', counter - 1)
 
-cv2.imwrite('./result/' + imageName, image_BGR)
+cv2.imwrite('/root/result/' + imageName, image_BGR)
 
 print("Object Detection Fınıshed! Check result directory to see the detected image.")
 print('#######################################################')
