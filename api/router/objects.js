@@ -40,58 +40,6 @@ router.get('/', (req, res, next) => {
       });
 })
 
-router.post('/upload', (req, res, next) => {
-    exec("python D:\\Users\\sberber\\object-detection-with-nodejs\\test.py", (error, stdout, stderr) => {
-        if (error) {
-            console.log(`error: ${error.message}`);
-        }
-        if (stderr) {
-            console.log(`error2: ${stderr}`);
-        }
-        console.log(`output: ${stdout}`);
-        res.status(200).json({
-            message: stdout
-        });
-    })
-})
-
-router.post('/seluk677', upload.single('objectImage'), (req, res, next) => {
-    console.log(req.file);
-    res.status(200).json({
-        message: 'OK'
-    });
-})
-
-// argümanlar [] içinde eleman olarak veriliyor spawn'da
-/*
-router.get('/seluk67', (req, res, next) => {
-    const python = spawn('python', ['D:\\Users\\sberber\\object-detection-with-nodejs\\test2.py']);
-    python.stdout.on('data', (data) => {
-        res.status(200).json({
-            message: data
-        });
-    })
-
-    python.stderr.on('data', (data) => {
-        console.log(`error ${code}`);
-        res.status(404).json({
-            error: data
-        });
-    })
-
-    python.on('error', (error) => {
-        console.log(`error ${code}`);
-        res.status(404).json({
-            error: error
-        });
-    })
-
-    python.on('close', (code) => {
-        console.log(`exited ${code}`);
-    })
-})
-*/
-
 router.get('/:objectId', (req, res, next) => {
     const id = req.params.objectId;
     Object.findById(id)
@@ -112,6 +60,21 @@ router.get('/:objectId', (req, res, next) => {
               message: "An error occured" + err
           });
       })
+})
+
+router.post('/upload', upload.single('objectImage'), (req, res, next) => {
+    exec("python /root/yolo-3-image.py /root/uc_maskeliler/uploads/" + req.file.filename, (error, stdout, stderr) => {
+        if (error) {
+            console.log(`error: ${error.message}`);
+        }
+        if (stderr) {
+            console.log(`error2: ${stderr}`);
+        }
+        console.log(`output: ${stdout}`);
+        res.status(200).json({
+            message: stdout
+        });
+    })
 })
 
 router.delete('/', (req, res, next) => {
