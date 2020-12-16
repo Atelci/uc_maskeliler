@@ -1,9 +1,31 @@
 {
-    "dependencies": {
-        "express": "*",
-        "body-parser": "*"
-    },
-    "scripts": {
-        "start": "node index.js"
-    }
+  "name": "object-detection-with-nodejs",
+  "version": "1.0.0",
+  "description": "Detection custom objects with YOLO",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "keywords": [
+    "api",
+    "rest",
+    "object",
+    "detection",
+    "yolo"
+  ],
+  "author": "sberber",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "child_process": "^1.0.2",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.5",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
 }
