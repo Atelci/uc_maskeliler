@@ -63,7 +63,7 @@ router.get('/:objectId', (req, res, next) => {
 })
 
 router.post('/upload', upload.single('objectImage'), (req, res, next) => {
-    exec("python /root/yolo-3-image.py /root/uc_maskeliler/uploads/" + req.file.filename, (error, stdout, stderr) => {
+    exec("python3 /root/yolo-3-image.py /root/oraas/uc_maskeliler/uploads/" + req.file.filename, (error, stdout, stderr) => {
         if (error) {
             console.log(`error: ${error.message}`);
         }
