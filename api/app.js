@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const objectLayer = require('./api/router/objects');
+const objectLayer = require('./router/objects');
 
 mongoose.connect('mongodb+srv://seluk-admin:seluk-admin@node-seluk.vquci.mongodb.net/node-seluk?retryWrites=true&w=majority');
 
