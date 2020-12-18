@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const objectLayer = require('./router/objects');
+const uploadLayer = require('./router/upload');
 
 mongoose.connect('mongodb+srv://seluk-admin:seluk-admin@node-seluk.vquci.mongodb.net/node-seluk?retryWrites=true&w=majority');
 
@@ -16,6 +17,8 @@ app.use('/images', express.static(__dirname + '/public/images'));
 app.use('/videos', express.static(__dirname + '/public/videos'));
 
 app.use("/objects", objectLayer);
+app.use("/upload", uploadLayer);
+
 
 app.use((req, res, next) => {
     const error = new Error('Invalid resource...');

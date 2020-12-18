@@ -8,9 +8,9 @@ import os
 imageName = str(sys.argv[1])
 className = str(sys.argv[2])
 
-if (className === 'mask') {
+if (className == 'mask') {
     fileDir = "/root/mask/";
-} elif (className === 'baret') {
+} elif (className == 'baret') {
     fileDir = "/root/baret/";
 } else {
     fileDir = "/root/yolo-coco-data/";
@@ -212,7 +212,7 @@ print()
 print('Total objects been detected:', len(bounding_boxes))
 print('Number of objects left after non-maximum suppression:', counter - 1)
 
-cv2.imwrite('/root/result/' + imageName, image_BGR)
+cv2.imwrite('/root/images/' + imageName, image_BGR)
 
 print("Object Detection Fınıshed! Check result directory to see the detected image.")
 print('#######################################################')
