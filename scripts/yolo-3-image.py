@@ -211,7 +211,7 @@ print()
 print('Total objects been detected:', len(bounding_boxes))
 print('Number of objects left after non-maximum suppression:', counter - 1)
 
-cv2.imwrite('/root/images/' + imageName, image_BGR)
+cv2.imwrite('/root/public/images/' + imageName, image_BGR)
 
 print("Object Detection Fınıshed! Check result directory to see the detected image.")
 print('#######################################################')
