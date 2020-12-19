@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 const objectLayer = require('./router/objects');
 const uploadLayer = require('./router/upload');
+const userLayer = require('./router/user');
 
 mongoose.connect('mongodb+srv://seluk-admin:seluk-admin@node-seluk.vquci.mongodb.net/node-seluk?retryWrites=true&w=majority');
 
@@ -18,7 +19,7 @@ app.use('/videos', express.static(__dirname + '/public/videos'));
 
 app.use("/objects", objectLayer);
 app.use("/upload", uploadLayer);
-app.use("/user", uploadLayer);
+app.use("/user", userLayer);
 
 
 app.use((req, res, next) => {
