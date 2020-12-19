@@ -26,8 +26,9 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({storage: storage, fileFilter: fileFilter});
 
 router.post('/', upload.single('objectImage'), (req, res, next) => {
+    const documentId = new mongoose.Types.ObjectId();
     const upload = new Upload({
-        _id: new mongoose.Types.ObjectId(),
+        _id: documentId,
         userId: req.body.userId,
         status: "Processing...",
         fileName: req.file.filename,
@@ -55,7 +56,7 @@ router.post('/', upload.single('objectImage'), (req, res, next) => {
         console.log(`error2: ${stderr}`);
       }
       console.log(`output: ${stdout}`);
-      Upload.updateOne({userId: req.body.userId}, {status: "Completed"})
+      Upload.updateOne({_id: documentId}, {status: "Completed"})
         .exec()
         .then(result => {
           console.log(result);
@@ -68,11 +69,11 @@ router.post('/', upload.single('objectImage'), (req, res, next) => {
 
 router.get('/:detectionId', (req, res, next) => {
     const detectionId = req.params.detectionId;
-    Upload.findById(detectionId)
+    Upload.find({_id: detectionId})
       .exec()
-      .then(document => {
-        console.log("Database output: ", document);
-        if (document.length > 0) {
+      .then(doc => {
+        console.log("Database output: ", doc);
+        if (doc.length > 0) {
           if (doc.status === 'Completed') {
             const imagePath = "/root/images/";
             res.status(200).sendFile(imagePath + doc.fileName);
