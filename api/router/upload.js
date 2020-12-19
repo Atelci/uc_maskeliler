@@ -74,7 +74,7 @@ router.get('/:detectionId', (req, res, next) => {
       .then(doc => {
         console.log("Database output: ", doc);
         if (doc.status === 'Completed') {
-          const imagePath = "/root/images/";
+          const imagePath = "/root/public/images/";
           res.status(200).sendFile(imagePath + doc.fileName);
         } else {
           res.status(200).json({
