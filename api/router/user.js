@@ -28,7 +28,7 @@ router.get('/:userId', (req, res, next) => {
       .then(docs => {
         console.log("Database output: ", docs);
         if (docs.length > 0) {
-          const imagePath = "/root/images/";
+          const imagePath = "/images/";
           for (var doc of docs) {
             if (doc.status == 'Processing...') {
               doc.fileName = "";
