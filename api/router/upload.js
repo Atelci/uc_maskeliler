@@ -36,7 +36,8 @@ router.post('/', upload.single('objectImage'), (req, res, next) => {
     .then(result => {
         console.log(result);
         res.status(201).json({
-            message: 'Image Processing Started ' + result.userId
+            message: 'Image Processing Started for' + result.userId,
+            detection_id: result._id
         });
     })
     .catch(err => {
@@ -46,7 +47,7 @@ router.post('/', upload.single('objectImage'), (req, res, next) => {
         });
     });
 
-    exec("python3 /root/oraas/uc_maskeliler/scripts/yolo-3-image.py " + req.file.filename + " " + req.body.class, (error, stdout, stderr) => {
+    exec("python3 /root/oraas/uc_maskeliler/scripts/yolo-3-image.py " + req.file.filename + " " + req.body.className, (error, stdout, stderr) => {
       if (error) {
         console.log(`error: ${error.message}`);
       }
@@ -54,45 +55,37 @@ router.post('/', upload.single('objectImage'), (req, res, next) => {
         console.log(`error2: ${stderr}`);
       }
       console.log(`output: ${stdout}`);
-      Upload.update({userId: req.body.userId}, {$set: {status: "Completed"}})
+      Upload.updateOne({userId: req.body.userId}, {status: "Completed"})
         .exec()
         .then(result => {
           console.log(result);
-          res.status(200).json({
-              message: result
-          });
         })
         .catch(err => {
           console.log(err);
-          res.status(500).json({
-              error_message: err
-          });
         });
     })
 })
 
-router.get('/:userId', (req, res, next) => {
-    const id = req.params.userId;
-    // find by custom key
-    Upload.findById(id)
+router.get('/:detectionId', (req, res, next) => {
+    const detectionId = req.params.detectionId;
+    Upload.findById(detectionId)
       .exec()
-      .then(doc => {
-          console.log("Database output: ", doc);
-          if (doc) {
-            if (doc.status === 'Completed') {
-              // send image file
-              const imagePath = "/root/images/";
-              res.status(200).sendFile(imagePath + fileName);
-            } else {
-              res.status(200).json({
-                message: 'Processing'
-              });
-            }
+      .then(document => {
+        console.log("Database output: ", document);
+        if (document.length > 0) {
+          if (doc.status === 'Completed') {
+            const imagePath = "/root/images/";
+            res.status(200).sendFile(imagePath + doc.fileName);
           } else {
-              res.status(404).json({
-                  message: "No valid ID"
-              });
+            res.status(200).json({
+            message: 'Processing'
+            });
           }
+        } else {
+            res.status(404).json({
+                message: "No valid detection id"
+            });
+        }
       })
       .catch(err => {
           console.log(err);
