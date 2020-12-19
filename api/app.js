@@ -18,6 +18,7 @@ app.use('/videos', express.static(__dirname + '/public/videos'));
 
 app.use("/objects", objectLayer);
 app.use("/upload", uploadLayer);
+app.use("/user", uploadLayer);
 
 
 app.use((req, res, next) => {

@@ -8,19 +8,18 @@ import os
 imageName = str(sys.argv[1])
 className = str(sys.argv[2])
 
-if (className == 'mask') {
-    fileDir = "/root/mask/";
-} elif (className == 'baret') {
-    fileDir = "/root/baret/";
-} else {
-    fileDir = "/root/yolo-coco-data/";
-}
+if (className == 'mask'):
+    fileDir = "/root/mask/"
+elif (className == 'baret'):
+    fileDir = "/root/baret/"
+else:
+    fileDir = "/root/yolo-coco-data/"
 
 print('#######################################################')
 print("Object Detection Started For " + imageName)
 
 
-image_BGR = cv2.imread('/root/oraas/uc_maskeliler/uploads/' + imageName)
+image_BGR = cv2.imread('/root/oraas/uc_maskeliler/api/uploads/' + imageName)
 
 # Check point - Showing image shape
 # print('Image shape:', image_BGR.shape)
