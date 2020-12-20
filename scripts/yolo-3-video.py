@@ -1,28 +1,3 @@
-
-
-"""
-Course:  Training YOLO v3 for Objects Detection with Custom Data
-
-Section-2
-Objects Detection on Video with YOLO v3 and OpenCV
-File: yolo-3-video.py
-"""
-
-
-# Detecting Objects on Video with OpenCV deep learning library
-#
-# Algorithm:
-# Reading input video --> Loading YOLO v3 Network -->
-# --> Reading frames in the loop --> Getting blob from the frame -->
-# --> Implementing Forward Pass --> Getting Bounding Boxes -->
-# --> Non-maximum Suppression --> Drawing Bounding Boxes with Labels -->
-# --> Writing processed frames
-#
-# Result:
-# New video file with Detected Objects, Bounding Boxes and Labels
-
-
-# Importing needed libraries
 import numpy as np
 import cv2
 import time
