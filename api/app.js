@@ -13,6 +13,12 @@ mongoose.connect('mongodb+srv://seluk-admin:seluk-admin@node-seluk.vquci.mongodb
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', "Origin , X-Requested-With, Content-type, Accept");
+    next();
+});
+
 // Static Files Routing
 app.use('/images', express.static('/root/public/images'));
 app.use('/videos', express.static('/root/public/videos'));
