@@ -5,6 +5,7 @@ const uploadSchema = mongoose.Schema({
     userId: String,
     status: String,
     fileName: String,
+    fileType: String
 });
 
 module.exports = mongoose.model('Upload', uploadSchema);

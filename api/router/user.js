@@ -23,7 +23,7 @@ router.get('/', (req, res, next) => {
 
 router.get('/:userId', (req, res, next) => {
     const userId = req.params.userId;
-    Upload.find({userId: userId}, 'status, fileName')
+    Upload.find({userId: userId}, 'status, fileName, fileType')
       .exec()
       .then(docs => {
         console.log("Database output: ", docs);

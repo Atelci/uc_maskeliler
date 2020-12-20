@@ -26,20 +26,24 @@ File: yolo-3-video.py
 import numpy as np
 import cv2
 import time
+import sys
+import os
+
+videoName = str(sys.argv[1])
+className = str(sys.argv[2])
+
+if (className == 'mask'):
+    fileDir = "/root/mask/"
+elif (className == 'baret'):
+    fileDir = "/root/baret/"
+else:
+    fileDir = "/root/yolo-coco-data/"
+
+print('#######################################################')
+print("Object Detection Started For " + videoName)
 
 
-"""
-Start of:
-Reading input video
-"""
-
-# Defining 'VideoCapture' object
-# and reading video from a file
-# Pay attention! If you're using Windows, the path might looks like:
-# r'videos\traffic-cars.mp4'
-# or:
-# 'videos\\traffic-cars.mp4'
-video = cv2.VideoCapture('videos/traffic-cars.mp4')
+video = cv2.VideoCapture('/root/oraas/uc_maskeliler/api/uploads/' + videoName)
 
 # Preparing variable for writer
 # that we will use to write processed frames
@@ -48,59 +52,31 @@ writer = None
 # Preparing variables for spatial dimensions of the frames
 h, w = None, None
 
-"""
-End of:
-Reading input video
-"""
-
-
-"""
-Start of:
-Loading YOLO v3 network
-"""
-
 # Loading COCO class labels from file
 # Opening file
 # Pay attention! If you're using Windows, yours path might looks like:
 # r'yolo-coco-data\coco.names'
 # or:
 # 'yolo-coco-data\\coco.names'
-with open('yolo-coco-data/coco.names') as f:
+with open(fileDir + 'coco.names') as f:
     # Getting labels reading every line
     # and putting them into the list
     labels = [line.strip() for line in f]
 
-
-# # Check point
-# print('List with labels names:')
-# print(labels)
-
 # Loading trained YOLO v3 Objects Detector
 # with the help of 'dnn' library from OpenCV
-# Pay attention! If you're using Windows, yours paths might look like:
-# r'yolo-coco-data\yolov3.cfg'
-# r'yolo-coco-data\yolov3.weights'
-# or:
-# 'yolo-coco-data\\yolov3.cfg'
-# 'yolo-coco-data\\yolov3.weights'
-network = cv2.dnn.readNetFromDarknet('yolo-coco-data/yolov3.cfg',
-                                     'yolo-coco-data/yolov3.weights')
+network = cv2.dnn.readNetFromDarknet(fileDir + 'yolov3.cfg', fileDir + 'yolov3.weights')
 
 # Getting list with names of all layers from YOLO v3 network
 layers_names_all = network.getLayerNames()
 
-# # Check point
-# print()
-# print(layers_names_all)
+
 
 # Getting only output layers' names that we need from YOLO v3 algorithm
 # with function that returns indexes of layers with unconnected outputs
 layers_names_output = \
     [layers_names_all[i[0] - 1] for i in network.getUnconnectedOutLayers()]
 
-# # Check point
-# print()
-# print(layers_names_output)  # ['yolo_82', 'yolo_94', 'yolo_106']
 
 # Setting minimum probability to eliminate weak predictions
 probability_minimum = 0.5
@@ -113,22 +89,6 @@ threshold = 0.3
 # with function randint(low, high=None, size=None, dtype='l')
 colours = np.random.randint(0, 255, size=(len(labels), 3), dtype='uint8')
 
-# # Check point
-# print()
-# print(type(colours))  # <class 'numpy.ndarray'>
-# print(colours.shape)  # (80, 3)
-# print(colours[0])  # [172  10 127]
-
-"""
-End of:
-Loading YOLO v3 network
-"""
-
-
-"""
-Start of:
-Reading frames in the loop
-"""
 
 # Defining variable for counting frames
 # At the end we will show total amount of processed frames
@@ -156,11 +116,6 @@ while True:
         # Slicing from tuple only first two elements
         h, w = frame.shape[:2]
 
-    """
-    Start of:
-    Getting blob from current frame
-    """
-
     # Getting blob from current frame
     # The 'cv2.dnn.blobFromImage' function returns 4-dimensional blob from current
     # frame after mean subtraction, normalizing, and RB channels swapping
@@ -169,16 +124,6 @@ while True:
     # blob = cv2.dnn.blobFromImage(image, scalefactor=1.0, size, mean, swapRB=True)
     blob = cv2.dnn.blobFromImage(frame, 1 / 255.0, (416, 416),
                                  swapRB=True, crop=False)
-
-    """
-    End of:
-    Getting blob from current frame
-    """
-
-    """
-    Start of:
-    Implementing Forward pass
-    """
 
     # Implementing forward pass with our blob and only through output layers
     # Calculating at the same time, needed time for forward pass
@@ -193,16 +138,6 @@ while True:
 
     # Showing spent time for single current frame
     print('Frame number {0} took {1:.5f} seconds'.format(f, end - start))
-
-    """
-    End of:
-    Implementing Forward pass
-    """
-
-    """
-    Start of:
-    Getting bounding boxes
-    """
 
     # Preparing lists for detected bounding boxes,
     # obtained confidences and class's number
@@ -250,16 +185,6 @@ while True:
                 confidences.append(float(confidence_current))
                 class_numbers.append(class_current)
 
-    """
-    End of:
-    Getting bounding boxes
-    """
-
-    """
-    Start of:
-    Non-maximum suppression
-    """
-
     # Implementing non-maximum suppression of given bounding boxes
     # With this technique we exclude some of bounding boxes if their
     # corresponding confidences are low or there is another
@@ -270,16 +195,6 @@ while True:
     # https://github.com/opencv/opencv/issues/12789
     results = cv2.dnn.NMSBoxes(bounding_boxes, confidences,
                                probability_minimum, threshold)
-
-    """
-    End of:
-    Non-maximum suppression
-    """
-
-    """
-    Start of:
-    Drawing bounding boxes and labels
-    """
 
     # Checking if there is at least one detected object
     # after non-maximum suppression
@@ -312,16 +227,6 @@ while True:
             cv2.putText(frame, text_box_current, (x_min, y_min - 5),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, colour_box_current, 2)
 
-    """
-    End of:
-    Drawing bounding boxes and labels
-    """
-
-    """
-    Start of:
-    Writing processed frame into the file
-    """
-
     # Initializing writer
     # we do it only once from the very beginning
     # when we get spatial dimensions of the frames
@@ -335,22 +240,11 @@ while True:
         # r'videos\result-traffic-cars.mp4'
         # or:
         # 'videos\\result-traffic-cars.mp4'
-        writer = cv2.VideoWriter('videos/result-traffic-cars.mp4', fourcc, 30,
+        writer = cv2.VideoWriter('/root/public/videos/' + videoName, fourcc, 30,
                                  (frame.shape[1], frame.shape[0]), True)
 
     # Write processed current frame to the file
     writer.write(frame)
-
-    """
-    End of:
-    Writing processed frame into the file
-    """
-
-"""
-End of:
-Reading frames in the loop
-"""
-
 
 # Printing final results
 print()
@@ -362,21 +256,3 @@ print('FPS:', round((f / t), 1))
 # Releasing video reader and writer
 video.release()
 writer.release()
-
-
-"""
-Some comments
-
-What is a FOURCC?
-    FOURCC is short for "four character code" - an identifier for a video codec,
-    compression format, colour or pixel format used in media files.
-    http://www.fourcc.org
-
-
-Parameters for cv2.VideoWriter():
-    filename - Name of the output video file.
-    fourcc - 4-character code of codec used to compress the frames.
-    fps	- Frame rate of the created video.
-    frameSize - Size of the video frames.
-    isColor	- If it True, the encoder will expect and encode colour frames.
-"""
