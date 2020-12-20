@@ -8,19 +8,16 @@ import os
 imageName = str(sys.argv[1])
 className = str(sys.argv[2])
 
-if (className === 'mask') {
-    fileDir = "/root/mask/";
-} elif (className === 'baret') {
-    fileDir = "/root/baret/";
-} else {
-    fileDir = "/root/yolo-coco-data/";
-}
+if (className == 'mask'):
+    fileDir = "/root/mask/"
+else:
+    fileDir = "/root/yolo-coco-data/"
 
 print('#######################################################')
 print("Object Detection Started For " + imageName)
 
 
-image_BGR = cv2.imread('/root/oraas/uc_maskeliler/uploads/' + imageName)
+image_BGR = cv2.imread('/root/oraas/uc_maskeliler/api/uploads/' + imageName)
 
 # Check point - Showing image shape
 # print('Image shape:', image_BGR.shape)
@@ -212,7 +209,7 @@ print()
 print('Total objects been detected:', len(bounding_boxes))
 print('Number of objects left after non-maximum suppression:', counter - 1)
 
-cv2.imwrite('/root/result/' + imageName, image_BGR)
+cv2.imwrite('/root/public/images/' + imageName, image_BGR)
 
 print("Object Detection Fınıshed! Check result directory to see the detected image.")
 print('#######################################################')
