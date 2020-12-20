@@ -28,12 +28,16 @@ router.get('/:userId', (req, res, next) => {
       .then(docs => {
         console.log("Database output: ", docs);
         if (docs.length > 0) {
-          const imagePath = "/images/";
+          var filePath;
           for (var doc of docs) {
             if (doc.status == 'Processing...') {
               doc.fileName = "";
             } else {
-              doc.fileName = imagePath + doc.fileName
+              if (doc.fileType === 'image') {
+                filePath = '/images/';
+              }
+              filePath = '/videos/';
+              doc.fileName = filePath + doc.fileName
             }
           }
           res.status(200).json(docs);
