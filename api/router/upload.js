@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'video/mp4') {
         cb(null, true);
     } else {
         cb(null, false);
@@ -118,8 +118,11 @@ router.get('/:detectionId', (req, res, next) => {
       .then(doc => {
         console.log("Database output: ", doc);
         if (doc.status === 'Completed') {
-          const imagePath = "/root/public/images/";
-          res.status(200).sendFile(imagePath + doc.fileName);
+          if (doc.fileType === 'image') {
+            const filePath = "/root/public/images/";
+          }
+          const filePath = "/root/public/videos/";
+          res.status(200).sendFile(filePath + doc.fileName);
         } else {
           res.status(200).json({
           message: 'Processing'
