@@ -25,13 +25,14 @@ const fileFilter = (req, file, cb) => {
 }
 const upload = multer({storage: storage, fileFilter: fileFilter});
 
-router.post('/', upload.single('objectImage'), (req, res, next) => {
+router.post('/image', upload.single('objectImage'), (req, res, next) => {
     const documentId = new mongoose.Types.ObjectId();
     const upload = new Upload({
         _id: documentId,
         userId: req.body.userId,
         status: "Processing...",
         fileName: req.file.filename,
+        fileType: "image"
     });
     upload.save()
     .then(result => {
@@ -49,6 +50,49 @@ router.post('/', upload.single('objectImage'), (req, res, next) => {
     });
 
     exec("python3 /root/oraas/uc_maskeliler/scripts/yolo-3-image.py " + req.file.filename + " " + req.body.className, (error, stdout, stderr) => {
+      if (error) {
+        console.log(`error: ${error.message}`);
+      }
+      if (stderr) {
+        console.log(`error2: ${stderr}`);
+      }
+      console.log(`output: ${stdout}`);
+      Upload.updateOne({_id: documentId}, {status: "Completed"})
+        .exec()
+        .then(result => {
+          console.log(result);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    })
+})
+
+router.post('/video', upload.single('objectVideo'), (req, res, next) => {
+    const documentId = new mongoose.Types.ObjectId();
+    const upload = new Upload({
+        _id: documentId,
+        userId: req.body.userId,
+        status: "Processing...",
+        fileName: req.file.filename,
+        fileType: "video"
+    });
+    upload.save()
+    .then(result => {
+        console.log(result);
+        res.status(201).json({
+            message: 'Image Processing Started for' + result.userId,
+            detection_id: result._id
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            message: 'An error occured!' + err
+        });
+    });
+
+    exec("python3 /root/oraas/uc_maskeliler/scripts/yolo-3-video.py " + req.file.filename + " " + req.body.className, (error, stdout, stderr) => {
       if (error) {
         console.log(`error: ${error.message}`);
       }
