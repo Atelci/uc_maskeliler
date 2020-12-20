@@ -34,10 +34,10 @@ router.get('/:userId', (req, res, next) => {
             if (doc.status == 'Processing...') {
               doc.fileName = "";
             } else {
-              if (doc.fileType === 'image') {
-                filePath = '/images/';
+              filePath = '/images/';
+              if (doc.fileType === 'video') {
+                filePath = '/videos/';
               }
-              filePath = '/videos/';
               doc.fileName = filePath + doc.fileName
             }
           }

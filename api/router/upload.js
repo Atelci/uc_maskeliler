@@ -29,7 +29,7 @@ router.post('/', upload.single('objectFile'), (req, res, next) => {
     const documentId = new mongoose.Types.ObjectId();
     var fileType = 'image';
     var pythonScriptPath = "python3 /root/oraas/uc_maskeliler/scripts/yolo-3-image.py ";
-    if (file.mimetype === 'video/mp4') {
+    if (req.file.mimetype === 'video/mp4') {
       fileType = "video";
       pythonScriptPath = "python3 /root/oraas/uc_maskeliler/scripts/yolo-3-video.py ";
     }
