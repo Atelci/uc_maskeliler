@@ -9,8 +9,6 @@ className = str(sys.argv[2])
 
 if (className == 'mask'):
     fileDir = "/root/mask/"
-elif (className == 'baret'):
-    fileDir = "/root/baret/"
 else:
     fileDir = "/root/yolo-coco-data/"
 
