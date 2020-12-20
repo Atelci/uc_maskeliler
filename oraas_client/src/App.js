@@ -1,5 +1,6 @@
 import './App.css';
 import Header from './components/header.js';
+import UploadImage from './components/uploadImage.js';
 
 function App() {
   return (
@@ -36,7 +37,8 @@ function App() {
 
               <li>
                 <label className="form-label">Your File:</label>
-                <input type="file" className="form-control" id="customFile" />
+                {/* <input type="file" className="form-control" id="customFile" /> */}
+                <UploadImage></UploadImage>
               </li>
 
             </ul>
