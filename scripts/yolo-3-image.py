@@ -37,30 +37,6 @@ h, w = image_BGR.shape[:2]  # Slicing from tuple only first two elements
 # blob = cv2.dnn.blobFromImage(image, scalefactor=1.0, size, mean, swapRB=True)
 blob = cv2.dnn.blobFromImage(image_BGR, 1 / 255.0, (416, 416), swapRB=True, crop=False)
 
-# # Check point
-# print('Image shape:', image_BGR.shape)  # (511, 767, 3)
-# print('Blob shape:', blob.shape)  # (1, 3, 416, 416)
-
-# # Check point
-# # Showing blob image in OpenCV window
-# # Slicing blob image and transposing to make channels come at the end
-# blob_to_show = blob[0, :, :, :].transpose(1, 2, 0)
-# print(blob_to_show.shape)  # (416, 416, 3)
-
-# # Showing Blob Image
-# # Giving name to the window with Blob Image
-# # And specifying that window is resizable
-# cv2.namedWindow('Blob Image', cv2.WINDOW_NORMAL)
-# # Pay attention! 'cv2.imshow' takes images in BGR format
-# # Consequently, we DO need to convert image from RGB to BGR firstly
-# # Because we have our blob in RGB format
-# cv2.imshow('Blob Image', cv2.cvtColor(blob_to_show, cv2.COLOR_RGB2BGR))
-# # Waiting for any key being pressed
-# cv2.waitKey(0)
-# # Destroying opened window with name 'Blob Image'
-# cv2.destroyWindow('Blob Image')
-
-
 # Loading COCO class labels from file
 
 with open(fileDir + 'coco.names') as f:
@@ -195,12 +171,12 @@ if len(results) > 0:
                       colour_box_current, 2)
 
         # Preparing text with label and confidence for current bounding box
-        text_box_current = '{}: {:.4f}'.format(labels[int(class_numbers[i])],
+        text_box_current = '{}: {:.2f}'.format(labels[int(class_numbers[i])],
                                                confidences[i])
 
         # Putting text with label and confidence on the original image
-        cv2.putText(image_BGR, text_box_current, (x_min, y_min - 5),
-                    cv2.FONT_HERSHEY_COMPLEX, 0.7, colour_box_current, 2)
+        cv2.putText(image_BGR, text_box_current, (x_min, y_min - 10),
+                    cv2.FONT_HERSHEY_COMPLEX, 2.0, colour_box_current, 4)
 
 
 # Comparing how many objects where before non-maximum suppression

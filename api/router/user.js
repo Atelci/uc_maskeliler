@@ -27,7 +27,8 @@ router.get('/:userId', (req, res, next) => {
       .select('status fileName fileType')
       .exec()
       .then(docs => {
-        console.log("Database output: ", docs);
+        console.log("#######################################################");
+        console.log("####################Database Output####################", docs);
         if (docs.length > 0) {
           var filePath;
           for (var doc of docs) {

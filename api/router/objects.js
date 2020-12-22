@@ -26,7 +26,8 @@ router.get('/:objectId', (req, res, next) => {
     Object.findById(id)
       .exec()
       .then(doc => {
-          console.log("Database output: ", doc);
+          console.log("#######################################################");
+          console.log("####################Database Output####################", doc);
           if (doc) {
             res.status(200).json(doc);
           } else {
