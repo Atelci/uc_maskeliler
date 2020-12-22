@@ -1,4 +1,5 @@
 import React from 'react'
+import '../App.css';
 const axios = require("axios");
 
 var isProcessed = false;
@@ -11,7 +12,9 @@ class UploadImage extends React.Component {
             file: [],
             userId: null,
             className: null,
-            isOutputShown: false
+            isOutputShown: false,
+            fileType: "image",
+            processing: false
         };
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.handleUserChange = this.handleUserChange.bind(this);
@@ -35,6 +38,20 @@ class UploadImage extends React.Component {
         axios.post("http://35.158.95.26:80/upload", formData, config)
             .then((postResponse) => {
                 alert("The file is successfully uploaded");
+                this.setState({
+                    fileType: postResponse.data.file_type,
+                    processing: true
+                })
+
+                // Needed to show process loading until its finished
+                this.props.parentCallback(
+                    this.state.isOutputShown,
+                    imageURL,
+                    this.state.userId,
+                    this.state.fileType,
+                    this.state.processing
+                );
+                
                 this.getProcessedImage(postResponse);
             }).catch((error) => {
         });
@@ -48,8 +65,10 @@ class UploadImage extends React.Component {
                 .then((getResponse) => {
                     if (getResponse.data.message !== "Processing") {
                         isProcessed = true;
-                        console.log(isProcessed)
-                        this.setState({isOutputShown: true})
+                        this.setState({
+                            isOutputShown: true,
+                            processing: false
+                        })
                         clearInterval(myInterval);
                     }
                 })
@@ -71,7 +90,13 @@ class UploadImage extends React.Component {
 
     componentDidUpdate() {
         if(isProcessed === true) {
-            this.props.parentCallback(this.state.isOutputShown, imageURL);
+            this.props.parentCallback(
+                this.state.isOutputShown,
+                imageURL,
+                this.state.userId,
+                this.state.fileType,
+                this.state.processing
+            );
             this.setState({isOutputShown: false})
             isProcessed = false;
         }
@@ -80,11 +105,34 @@ class UploadImage extends React.Component {
     render() {
         return (
             <form onSubmit={this.onFormSubmit}>
-                <h1>File Upload</h1>
-                <input type="file" name="objectFile" onChange={this.handleFileChange}/>
-                <input id="userId" type="text" name="userId" value={this.state.userId} onChange={this.handleUserChange}/>
-                <input id="className" type="text" name="className" value={this.state.className} onChange={this.handleClassChange}/>
-                <button type="submit">Upload</button>
+                <ul>
+                    <li>
+                        <label htmlFor="userId" className="form-label">Your Name:</label>
+                        <input type="text" className="form-control" id="userId" name="userId" placeholder="John"
+                            value={this.state.userId} onChange={this.handleUserChange}/>
+                    </li>
+                    <li>
+                        <label htmlFor="classSelected" className="form-label">Choose class:</label>
+                        <select className="selectpicker" value={this.state.className} onChange={this.handleClassChange}>
+                            <optgroup label="Offical">
+                              <option>coco</option>
+                            </optgroup>
+                            <hr></hr>
+                            <optgroup label="Custom">
+                              <option>mask</option>
+                            </optgroup>
+                        </select>
+                    </li>
+                    <li>
+                        <label className="form-label">Your File:</label>
+                        <input type="file" name="objectFile" onChange={this.handleFileChange}/>
+                        <button type="submit">Upload</button>
+                    </li>
+                    <li>
+                        <label className="form-label" htmlFor="customFile">Default file input example:</label>
+                        <img src={process.env.PUBLIC_URL + '/example-image.jpg'} alt="example"></img>
+                    </li>
+                </ul>
             </form>
         )
     }

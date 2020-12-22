@@ -1,34 +1,26 @@
 /*
 * Main
 */
-
 .Header {
   align-content: left;
 }
-
 .App-bg {
   /* The image used */
   background-image: url("./images/uc_maskeliler.png");
-
   position: fixed;
   top: 0;
-
   /* Add the blur effect */
   filter: blur(14px);
   -webkit-filter: blur(14px);
-
   /* Full height */
   height: 100%;
   width: 100%;
-  
   /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-
   z-index: -1;
 }
-
 .App-body {
   margin-top: 5%;
   margin: auto;
@@ -44,7 +36,7 @@ div.transbox-right, div.transbox-left {
   opacity: 1;
   box-sizing: border-box;
   max-width: 40%;
-  position: fixed;
+  position: absolute;
 }
 div.transbox-left {
   left: 10%;
@@ -54,7 +46,6 @@ div.transbox-right {
   right: 10%;
   left: 50%;
 }
-
 
 /*
 * Transparent box content
@@ -93,28 +84,17 @@ ul.bulletless {
 }
 
 /*
-* Transition
+* Class List
 */
-.transition {
-  margin-top: 15%;
-  margin-left: 5%;
-  margin-right: 5%;
-  background-color: #ffffff;
-  border: 1px solid black;
+.classesImage {
+  margin-top: 5%;
   opacity: 0.7;
-  box-sizing: border-box;
-  max-width: 40%;
-  position: fixed;
-  left: 40%;
-  right: 40%;
 }
-.transition a {
-  text-decoration: none;
-  display: inline-block;
-  background-color: #4c87af;
-  color: white;
-}
-.transition a:hover {
-  background-color: #ddd;
-  color: black;
+
+/*
+* My Images
+*/
+.myImage {
+  opacity: 1;
+  width:33.3%;
 }
