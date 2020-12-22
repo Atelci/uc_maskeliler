@@ -26,14 +26,12 @@ class Gallery extends React.Component {
           console.log("arrayResponse",arrayResponse)
           arrayResponse.forEach(element => {
             if(element[1].status == 'Completed') {
-                console.log("tempArray:",tempArray)
                 tempArray.push(<UserImage fileType={element[1].fileType} link={"http://35.158.95.26:80" + element[1].fileName}></UserImage>)
             }
           });
         })
         .then(() => {
             this.setState({imgLinkArray: tempArray})
-            console.log("imgLinkArray:" ,this.state.imgLinkArray)
             this.render();
         });
     }

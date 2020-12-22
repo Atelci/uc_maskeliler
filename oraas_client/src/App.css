@@ -36,7 +36,7 @@ div.transbox-right, div.transbox-left {
   opacity: 1;
   box-sizing: border-box;
   max-width: 40%;
-  position: fixed;
+  position: absolute;
 }
 div.transbox-left {
   left: 10%;
@@ -76,7 +76,7 @@ div.transbox-left img {
   max-height: 50%;
 }
 div.transbox-right img {
-  max-width: 100%;
+  max-width: 80%;
   max-height: 80%;
 }
 ul.bulletless {
@@ -94,3 +94,7 @@ ul.bulletless {
 /*
 * My Images
 */
+.myImage {
+  opacity: 1;
+  width:33.3%;
+}

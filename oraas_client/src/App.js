@@ -11,6 +11,7 @@ import {
   Route
 } from "react-router-dom";
 
+let finished = 1; // 1 initial, 2 finished, 3 waiting another
 class App extends React.Component {
 
   constructor(props) {
@@ -18,18 +19,30 @@ class App extends React.Component {
     this.state ={
         output: process.env.PUBLIC_URL + '/example-output-image.jpg',
         user: "",
+        processing: false
     };
     this.onOutputChange = this.onOutputChange.bind(this);
     this.handleFileType = this.handleFileType.bind(this);
+    this.showProcessingInfo = this.showProcessingInfo.bind(this);
   }
 
   // Change output image if its processed, triggered y child component UploadImage
-  onOutputChange = (isOutputShown, imageURL, userId, fileType) => {
+  onOutputChange = (isOutputShown, imageURL, userId, fileType, processing) => {
+    // Show processing prompt while processing
+    if(processing && this.state.processing == false) {
+      this.setState({processing: true});
+      this.render();
+    }
+
     if(isOutputShown === true) {
       this.setState({
         output: imageURL,
-        user: userId
+        user: userId,
+        processing: false
       })
+      finished = 2; // finsihed
+      this.render();
+
       this.handleFileType(fileType)
     }
   }
@@ -41,6 +54,28 @@ class App extends React.Component {
       return <img src={this.state.output} alt="example-output"></img>
     } else if(fileType == "video") {
       return <video controls><source src={this.state.output} type="video/mp4">Your browser does not support the video tag.</source></video>
+    } else {
+      // example output image
+      return <img src={this.state.output} alt="example-output"></img>
+    }
+  }
+
+  // Show process status(waiting, loading, finished)
+  showProcessingInfo() {
+    if(finished === 2) {
+      finished = 3; // waiting new one
+      return <p><b>Done!!</b></p>
+    }
+
+    if(this.state.processing == true) {
+      // processing...
+      return <div><p>Processing your image...</p><img src={process.env.PUBLIC_URL + '/loading.gif'} alt="loading"></img></div>
+    } else if(finished === 1) {
+      // initial phase
+      return <p>Waiting your input file</p>
+    } else if (finished === 3){
+      // Waiting another input
+      return <p><b>Done!!</b></p>
     }
   }
 
@@ -65,13 +100,10 @@ class App extends React.Component {
                       </li>
                       <li>
                         {this.handleFileType()}
-                        {/* <img src={this.state.output} alt="example-output"></img> */}
                       </li>
                       <hr></hr>
                       <li>
-                        <p>Processing your image...</p>
-                        <img src={process.env.PUBLIC_URL + '/loading.gif'} alt="loading"></img>
-                        <button type="button" className="btn btn-primary" disabled>Download</button>
+                        {this.showProcessingInfo()}
                       </li>
                     </ul>
                   </div>

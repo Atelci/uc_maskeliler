@@ -13,7 +13,8 @@ class UploadImage extends React.Component {
             userId: null,
             className: null,
             isOutputShown: false,
-            fileType: "image"
+            fileType: "image",
+            processing: false
         };
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.handleUserChange = this.handleUserChange.bind(this);
@@ -38,8 +39,19 @@ class UploadImage extends React.Component {
             .then((postResponse) => {
                 alert("The file is successfully uploaded");
                 this.setState({
-                    fileType: postResponse.data.file_type
+                    fileType: postResponse.data.file_type,
+                    processing: true
                 })
+
+                // Needed to show process loading until its finished
+                this.props.parentCallback(
+                    this.state.isOutputShown,
+                    imageURL,
+                    this.state.userId,
+                    this.state.fileType,
+                    this.state.processing
+                );
+                
                 this.getProcessedImage(postResponse);
             }).catch((error) => {
         });
@@ -53,8 +65,10 @@ class UploadImage extends React.Component {
                 .then((getResponse) => {
                     if (getResponse.data.message !== "Processing") {
                         isProcessed = true;
-                        console.log(isProcessed)
-                        this.setState({isOutputShown: true})
+                        this.setState({
+                            isOutputShown: true,
+                            processing: false
+                        })
                         clearInterval(myInterval);
                     }
                 })
@@ -76,7 +90,13 @@ class UploadImage extends React.Component {
 
     componentDidUpdate() {
         if(isProcessed === true) {
-            this.props.parentCallback(this.state.isOutputShown, imageURL, this.state.userId, this.state.fileType);
+            this.props.parentCallback(
+                this.state.isOutputShown,
+                imageURL,
+                this.state.userId,
+                this.state.fileType,
+                this.state.processing
+            );
             this.setState({isOutputShown: false})
             isProcessed = false;
         }

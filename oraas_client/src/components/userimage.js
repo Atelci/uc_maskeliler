@@ -3,11 +3,11 @@ import '../App.css';
 
 class UserImage extends React.Component {
 
-    
+
 
     render() {
         return(
-            <img className="classesImage" src={this.props.link} alt="gallery-item"></img>
+            <img className="myImage" src={this.props.link} alt="gallery-item"></img>
         )
     }
 }
