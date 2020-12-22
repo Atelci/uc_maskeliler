@@ -193,12 +193,12 @@ while True:
                           colour_box_current, 2)
 
             # Preparing text with label and confidence for current bounding box
-            text_box_current = '{}: {:.4f}'.format(labels[int(class_numbers[i])],
+            text_box_current = '{}: {:.2f}'.format(labels[int(class_numbers[i])],
                                                    confidences[i])
 
             # Putting text with label and confidence on the original image
-            cv2.putText(frame, text_box_current, (x_min, y_min - 5),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, colour_box_current, 2)
+            cv2.putText(frame, text_box_current, (x_min, y_min - 10),
+                        cv2.FONT_HERSHEY_TRIPLEX, 2.0, colour_box_current, 4)
 
     # Initializing writer
     # we do it only once from the very beginning
