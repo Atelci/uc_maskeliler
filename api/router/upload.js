@@ -65,7 +65,15 @@ router.post('/', upload.single('objectFile'), (req, res, next) => {
         console.log(`error2: ${stderr}`);
       }
       console.log(`output: ${stdout}`);
-      Upload.updateOne({_id: documentId}, {status: "Completed"})
+      exec('ffmpeg -i /root/public/videos/notCodec' + req.file.filename + '.notCodec -vcodec libx264 /root/public/videos/' + req.file.filename, (error, stdout, stderr) => {
+        if (error) {
+          console.log(`error: ${error.message}`);
+        }
+        if (stderr) {
+          console.log(`error2: ${stderr}`);
+        }
+        console.log(`output: ${stdout}`);
+        Upload.updateOne({_id: documentId}, {status: "Completed"})
         .exec()
         .then(result => {
           console.log("#######################################################");
@@ -74,6 +82,7 @@ router.post('/', upload.single('objectFile'), (req, res, next) => {
         .catch(err => {
           console.log(err);
         });
+      })
     })
 })
 
