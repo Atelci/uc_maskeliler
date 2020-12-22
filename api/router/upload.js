@@ -42,10 +42,12 @@ router.post('/', upload.single('objectFile'), (req, res, next) => {
     });
     upload.save()
     .then(result => {
-        console.log(result);
+        console.log("#######################################################");
+        console.log("####################Database Output####################", result);
         res.status(201).json({
             message: 'Object processing started for the ' + fileType + " file. User id: " + result.userId,
-            detection_id: result._id
+            detection_id: result._id,
+            file_type: fileType
         });
     })
     .catch(err => {
@@ -66,7 +68,8 @@ router.post('/', upload.single('objectFile'), (req, res, next) => {
       Upload.updateOne({_id: documentId}, {status: "Completed"})
         .exec()
         .then(result => {
-          console.log(result);
+          console.log("#######################################################");
+          console.log("####################Database Output####################", result);
         })
         .catch(err => {
           console.log(err);
@@ -80,12 +83,13 @@ router.get('/:detectionId', (req, res, next) => {
     Upload.findById(detectionId)
       .exec()
       .then(doc => {
-        console.log("Database output: ", doc);
+        console.log("#######################################################");
+        console.log("####################Database Output####################", doc);
         if (doc.status === 'Completed') {
-          if (doc.fileType === 'image') {
-            filePath = "/root/public/images/";
+          filePath = "/root/public/images/";
+          if (doc.fileType === 'video') {
+            filePath = "/root/public/videos/";
           }
-          filePath = "/root/public/videos/";
           res.status(200).sendFile(filePath + doc.fileName);
         } else {
           res.status(200).json({

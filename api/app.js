@@ -13,6 +13,15 @@ mongoose.connect('mongodb+srv://seluk-admin:seluk-admin@node-seluk.vquci.mongodb
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 
+
+app.use((req, res, next) => {
+    console.log('#### Method: ', req.method);
+    console.log('#### IP: ', req.ip);
+    console.log('#### Path: ', req.path);
+    console.log('#### Protocol: ', req.protocol);
+    next();
+});
+
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', "Origin , X-Requested-With, Content-type, Accept");
