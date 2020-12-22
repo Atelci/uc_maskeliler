@@ -47,7 +47,7 @@ router.post('/', upload.single('objectFile'), (req, res, next) => {
         res.status(201).json({
             message: 'Object processing started for the ' + fileType + " file. User id: " + result.userId,
             detection_id: result._id,
-            file_ype: fileType
+            file_type: fileType
         });
     })
     .catch(err => {
