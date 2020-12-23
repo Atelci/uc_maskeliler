@@ -13,7 +13,7 @@ class UploadImage extends React.Component {
             userId: null,
             className: null,
             isOutputShown: false,
-            fileType: "image",
+            fileType: null,
             processing: false
         };
         this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -128,10 +128,10 @@ class UploadImage extends React.Component {
                         <input type="file" name="objectFile" onChange={this.handleFileChange}/>
                         <button type="submit">Upload</button>
                     </li>
-                    <li>
+                    {/* <li>
                         <label className="form-label" htmlFor="customFile">Default file input example:</label>
                         <img src={process.env.PUBLIC_URL + '/example-image.jpg'} alt="example"></img>
-                    </li>
+                    </li> */}
                 </ul>
             </form>
         )

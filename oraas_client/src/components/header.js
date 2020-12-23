@@ -16,7 +16,10 @@ function Header() {
                             <a className="nav-link" href="/classes">Class List</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/myimages">My Image</a>
+                            <a className="nav-link" href="/myimages">My Files</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="http://35.158.95.26/realtime/realtime.html">Realtime Detection</a>
                         </li>
                     </ul>
                 </div>
