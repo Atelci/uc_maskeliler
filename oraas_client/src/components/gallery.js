@@ -47,8 +47,8 @@ class Gallery extends React.Component {
                     <label htmlFor="user" className="form-label">Your Name:</label>
                     <input type="text" className="form-control" id="user" name="user" placeholder="John"
                             value={this.state.user} onChange={this.handleUserChange}/>
-                    <label className="form-label">Click to retrieve your images</label>
-                    <button type="submit" onClick={this.getImages}>Get Images!</button>
+                    <label className="form-label">Click to retrieve your files</label>
+                    <button type="submit" onClick={this.getImages}>Get Files!</button>
                 </div>
                 <div className="transbox-right">
                     {this.state.imgLinkArray}
