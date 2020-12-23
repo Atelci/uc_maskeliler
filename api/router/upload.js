@@ -65,7 +65,7 @@ router.post('/', upload.single('objectFile'), (req, res, next) => {
         console.log(`error2: ${stderr}`);
       }
       console.log(`output: ${stdout}`);
-      exec('ffmpeg -i /root/public/videos/notCodec' + req.file.filename + '.notCodec -vcodec libx264 /root/public/videos/' + req.file.filename, (error, stdout, stderr) => {
+      exec('ffmpeg -i /root/public/videos/notcodec/' + req.file.filename + ' -vcodec libx264 /root/public/videos/' + req.file.filename, (error, stdout, stderr) => {
         if (error) {
           console.log(`error: ${error.message}`);
         }

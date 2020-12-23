@@ -35,7 +35,7 @@ app.use('/videos', express.static('/root/public/videos'));
 app.use("/objects", objectLayer);
 app.use("/upload", uploadLayer);
 app.use("/user", userLayer);
-app.use('/realtime', express.static('/root/oraas/uc_maskeliler/api/realtime-public'))
+app.use('/realtime', express.static('/root/oraas/uc_maskeliler/api/realtime-public'));
 
 
 app.use((req, res, next) => {
