@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 
 let finished = 1; // 1 initial, 2 finished, 3 waiting another
+let CurrentFileType = "image";
 class App extends React.Component {
 
   constructor(props) {
@@ -41,9 +42,9 @@ class App extends React.Component {
         processing: false
       })
       finished = 2; // finsihed
-      this.render();
 
       this.handleFileType(fileType)
+      this.render();
     }
   }
 
@@ -51,12 +52,14 @@ class App extends React.Component {
   handleFileType(fileType = null) {
     // file type check
     if(fileType == "image") {
+      CurrentFileType = "image"
       return <img src={this.state.output} alt="example-output"></img>
     } else if(fileType == "video") {
-      return <video controls><source src={this.state.output} type="video/mp4">Your browser does not support the video tag.</source></video>
+      CurrentFileType = "video"
+      return <video controls><source src={this.state.output} type="video/mp4"/></video>
     } else {
       // example output image
-      return <img src={this.state.output} alt="example-output"></img>
+      return <img src={this.state.output} alt="example-output-default"></img>
     }
   }
 
@@ -99,7 +102,7 @@ class App extends React.Component {
                         <label className="form-label">Default file output example:</label>
                       </li>
                       <li>
-                        {this.handleFileType()}
+                        {this.handleFileType(CurrentFileType)}
                       </li>
                       <hr></hr>
                       <li>
