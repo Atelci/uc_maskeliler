@@ -187,5 +187,5 @@ print('Number of objects left after non-maximum suppression:', counter - 1)
 
 cv2.imwrite('/root/public/images/' + imageName, image_BGR)
 
-print("Object Detection Fınıshed! Check result directory to see the detected image.")
+print("Object Detection Finished for Image File! Check --> /root/public/images/")
 print('#######################################################')

@@ -213,8 +213,9 @@ while True:
         # r'videos\result-traffic-cars.mp4'
         # or:
         # 'videos\\result-traffic-cars.mp4'
-        writer = cv2.VideoWriter('/root/public/videos/notCodec' + videoName + '.notCodec', fourcc, 30,
+        writer = cv2.VideoWriter('/root/public/videos/notcodec/' + videoName , fourcc, 30,
                                  (frame.shape[1], frame.shape[0]), True)
+
 
     # Write processed current frame to the file
     writer.write(frame)
@@ -224,7 +225,8 @@ print()
 print('Total number of frames', f)
 print('Total amount of time {:.5f} seconds'.format(t))
 print('FPS:', round((f / t), 1))
-
+print("Object Detection Finished for Video File! Check --> /root/public/videos/notCodec/")
+print('#######################################################')
 
 # Releasing video reader and writer
 video.release()
